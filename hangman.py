@@ -31,6 +31,9 @@ def display_hint(hint):
 
 def display_answer(answer):
    print(" ".join(answer))
+  
+def display_hint_left(hint_left):
+    print(f"{hint_left} are left")
 
 def main():
     print("########## WELCOME TO HANG-MAN GAME ###########")
@@ -38,6 +41,7 @@ def main():
     answer=random.choice(words)
     hint=["_"]*len(answer)
     wrong_guess=0
+    hint_left=3
     guessed_letter=set()
     is_running=True
     
@@ -58,6 +62,14 @@ def main():
                     hint[i]=guess
         else:
             wrong_guess+=1
+        if hint_left>0 and wrong_guess>=2:
+            use_hint=input("Do you want to use a hint (y/n)? ").lower()
+            if use_hint=='y':
+                for i in range(len(answer)):
+                    if hint[i]=='_':
+                        hint[i]=answer[i]
+                        hint_left-=1
+                        break
         if "_" not in hint:
             display_man(wrong_guess)
             display_answer(answer)
